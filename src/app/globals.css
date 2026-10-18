@@ -1,26 +1,200 @@
 @import "tailwindcss";
 
+@theme {
+  /* Brand palette — taken from the Thrive Digital logo */
+  --color-brand-50: #eef5ff;
+  --color-brand-100: #d9e8ff;
+  --color-brand-200: #bcd7ff;
+  --color-brand-300: #8ebeff;
+  --color-brand-400: #5a9bfb;
+  --color-brand-500: #1e78f7;
+  --color-brand-600: #0f65e0;
+  --color-brand-700: #0855c2;
+  --color-brand-800: #0c4699;
+  --color-brand-900: #0f3c7a;
+
+  --color-navy-700: #1b1b5e;
+  --color-navy-800: #10104a;
+  --color-navy-900: #0a0a3b;
+  --color-navy-950: #050530;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-draw: draw 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.6s both;
+  --animate-grow-x: grow-x 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -18px, 0);
+    }
+  }
+  @keyframes grow-x {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--color-navy-950);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-brand-500);
+  color: #fff;
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, #5a9bfb 0%, #1e78f7 45%, #8ebeff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gradient text for light backgrounds */
+@utility text-gradient-brand {
+  background-image: linear-gradient(100deg, #1e78f7 0%, #0855c2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes fill-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fill-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Progress lines that fill as their element scrolls through the viewport */
+    .scroll-fill-x {
+      animation: fill-x linear both;
+      animation-timeline: view();
+      animation-range: entry 60% cover 55%;
+    }
+    .scroll-fill-y {
+      animation: fill-y linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 70%;
+    }
+  }
+}
+
+/*
+ * Reveal on scroll (driven by RevealObserver). Content is only hidden once JS has added
+ * .reveal-ready to <html>, so it stays visible for crawlers and no-JS visitors.
+ * Usage: data-reveal="up | left | right | zoom" and optional style={{ "--reveal-delay": "120ms" }}
+ */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 56px, 0);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-ready [data-reveal="zoom"] {
+  transform: scale(0.92) translate3d(0, 32px, 0);
+}
+
+@media (min-width: 1024px) {
+  .reveal-ready [data-reveal="left"] {
+    transform: translate3d(-72px, 0, 0);
+  }
+  .reveal-ready [data-reveal="right"] {
+    transform: translate3d(72px, 0, 0);
+  }
+}
+
+.reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(rgb(5 5 48 / 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
