@@ -3,7 +3,7 @@ export const site = {
   name: "Thrive Digital Ltd.",
   shortName: "Thrive Digital",
   tagline: "Your Digital Growth Partner",
-  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://thrivedigitalltd.com").replace(/\/$/, ""),
+  url: (process.env.PUBLIC_SITE_URL || "https://thrivedigitalltd.com").replace(/\/$/, ""),
   title: "Thrive Digital Ltd. | Your Digital Growth Partner",
   description:
     "Thrive Digital Ltd. is a data-driven digital marketing agency in Dhaka offering social media marketing, SEO, PPC, web design and content to grow brands.",
