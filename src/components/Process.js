@@ -1,4 +1,5 @@
 import { OutlineIcon } from "@/components/icons";
+import ProcessTimeline from "@/components/ProcessTimeline";
 
 const steps = [
   {
@@ -58,45 +59,42 @@ export default function Process() {
           </h2>
         </div>
 
-        <ol className="relative mt-16 grid gap-8 lg:mt-24 lg:grid-cols-4 lg:gap-6">
-          {/* connector: vertical on mobile, horizontal on desktop; fills as you scroll */}
-          <div aria-hidden="true" className="absolute bottom-8 left-7 top-8 w-px bg-white/10 lg:hidden">
-            <div className="scroll-fill-y h-full w-full origin-top bg-gradient-to-b from-brand-500 to-brand-300" />
-          </div>
-          <div aria-hidden="true" className="absolute left-[12.5%] right-[12.5%] top-10 hidden h-px bg-white/10 lg:block">
-            <div className="scroll-fill-x h-full w-full origin-left bg-gradient-to-r from-brand-700 via-brand-500 to-brand-300" />
-          </div>
-
-          {steps.map((step, i) => (
-            <li
-              key={step.title}
-              data-reveal="up"
-              style={{ "--reveal-delay": `${i * 150}ms` }}
-              className="relative grid grid-cols-[3.5rem_1fr] gap-5 lg:flex lg:flex-col lg:items-center lg:gap-0"
-            >
-              <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-navy-950 ring-1 ring-white/15 lg:h-20 lg:w-20">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 font-display text-sm font-extrabold shadow-lg shadow-brand-500/40 lg:h-16 lg:w-16 lg:text-lg">
-                  {String(i + 1).padStart(2, "0")}
+        <ProcessTimeline>
+          <ol className="relative grid gap-8 lg:grid-cols-4 lg:gap-6">
+            {steps.map((step, i) => (
+              <li
+                key={step.title}
+                data-reveal="up"
+                style={{ "--reveal-delay": `${i * 150}ms` }}
+                className="relative grid grid-cols-[3.5rem_1fr] gap-5 lg:flex lg:flex-col lg:items-center lg:gap-0"
+              >
+                <span
+                  data-step-node
+                  className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-navy-950 ring-1 ring-white/15 lg:h-20 lg:w-20"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 font-display text-sm font-extrabold shadow-lg shadow-brand-500/40 lg:h-16 lg:w-16 lg:text-lg">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </span>
-              </span>
 
-              <article className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-400/40 hover:bg-white/[0.06] sm:p-7 lg:mt-8 lg:w-full lg:text-center">
-                <div
-                  aria-hidden="true"
-                  className="absolute -top-16 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-brand-500/0 blur-2xl transition-colors duration-500 group-hover:bg-brand-500/30"
-                />
-                <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-brand-300 transition-colors duration-500 group-hover:text-white">
-                  <OutlineIcon className="h-5 w-5">{step.icon}</OutlineIcon>
-                </span>
-                <h3 className="relative mt-5 font-display text-xl font-bold">
-                  <span className="sr-only">Step {i + 1}: </span>
-                  {step.title}
-                </h3>
-                <p className="relative mt-3 leading-relaxed text-white/60">{step.text}</p>
-              </article>
-            </li>
-          ))}
-        </ol>
+                <article className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-400/40 hover:bg-white/[0.06] sm:p-7 lg:mt-8 lg:w-full lg:text-center">
+                  <div
+                    aria-hidden="true"
+                    className="absolute -top-16 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-brand-500/0 blur-2xl transition-colors duration-500 group-hover:bg-brand-500/30"
+                  />
+                  <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-brand-300 transition-colors duration-500 group-hover:text-white">
+                    <OutlineIcon className="h-5 w-5">{step.icon}</OutlineIcon>
+                  </span>
+                  <h3 className="relative mt-5 font-display text-xl font-bold">
+                    <span className="sr-only">Step {i + 1}: </span>
+                    {step.title}
+                  </h3>
+                  <p className="relative mt-3 leading-relaxed text-white/60">{step.text}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </ProcessTimeline>
       </div>
     </section>
   );

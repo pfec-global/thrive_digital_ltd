@@ -100,40 +100,6 @@ body {
   color: transparent;
 }
 
-@keyframes fill-x {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes fill-y {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Progress lines that fill as their element scrolls through the viewport */
-    .scroll-fill-x {
-      animation: fill-x linear both;
-      animation-timeline: view();
-      animation-range: entry 60% cover 55%;
-    }
-    .scroll-fill-y {
-      animation: fill-y linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 70%;
-    }
-  }
-}
-
 /*
  * Reveal on scroll (driven by RevealObserver). Content is only hidden once JS has added
  * .reveal-ready to <html>, so it stays visible for crawlers and no-JS visitors.
